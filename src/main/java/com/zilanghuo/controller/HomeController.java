@@ -1,5 +1,7 @@
 package com.zilanghuo.controller;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,11 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018/7/12
  * use:
  */
-@RestController
+@Controller
+@RequestMapping
 public class HomeController {
 
-    @RequestMapping("/")
-    String home() {
-        return "Hello World!";
+    @RequestMapping("/index")
+    public String home() {
+        return "index";
     }
 }
