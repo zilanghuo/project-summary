@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
  * use:
  */
 @Controller
-@RequestMapping
+@RequestMapping("/index")
 public class HomeController {
 
-    @RequestMapping("/index")
+    @RequestMapping("/")
     public String home() {
         return "index";
     }
