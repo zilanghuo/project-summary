@@ -59,7 +59,7 @@
 			<version>112</version>
 		</dependency>
 
-	</dependencies>
+</dependencies>
 
 	<build>
 		<plugins>
