@@ -2,7 +2,7 @@ package com.zilanghuo.controller;
 
 import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
 import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
-import cn.hutool.crypto.asymmetric.KeyType;
+import com.zilanghuo.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,7 +33,7 @@ public class DepositController {
         treeMap.put("ver", "1.00");
         treeMap.put("code", "regUserByFive");
         treeMap.put("mchnt_cd", "0002900F0352200");
-        treeMap.put("mchnt_txn_ssn", "201807240000002");
+        treeMap.put("mchnt_txn_ssn", "201807240000003");
         treeMap.put("client_tp", "0");
         treeMap.put("usr_attr", "1");
         treeMap.put("page_notify_url", "https://www.baidu.com");
@@ -67,9 +67,8 @@ public class DepositController {
         }
         sb.deleteCharAt(sb.length() - 1);
         result.put("key", sb.toString());
-        String pre = crypto.encryptBcd(sb.toString(), KeyType.PrivateKey);
+        String pre = SecurityUtils.sign(sb.toString());
         result.put("signature", pre);
-
         return result;
     }
 
