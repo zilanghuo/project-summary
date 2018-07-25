@@ -1,5 +1,6 @@
 package com.zilanghuo.utils;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.codec.Base64;
 import org.springframework.util.StringUtils;
 
@@ -9,7 +10,6 @@ import java.security.PublicKey;
 import java.security.Signature;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -79,20 +79,43 @@ public class SecurityUtils {
 
     /**
      * map 排序加密
+     *
+     * @param map
+     * @return
+     */
+    public static String signByBean(Object bean) {
+        Map<String, Object> map = BeanUtil.beanToMap(bean);
+        TreeMap<String,Object> treeMap = new TreeMap();
+        Iterator<Map.Entry<String, Object>> iteratorMap = map.entrySet().iterator();
+        while (iteratorMap.hasNext()){
+            Map.Entry<String, Object> next = iteratorMap.next();
+            treeMap.put(next.getKey(),next.getValue());
+        }
+        return sign(getInputStr(treeMap));
+    }
+
+    /**
+     * map 排序加密
+     *
      * @param treeMap
      * @return
      */
-    public static String signByTreeMap(TreeMap<String, String> treeMap) {
-        Iterator<Map.Entry<String, String>> iterator = treeMap.entrySet().iterator();
+    public static Boolean verifyByTreeMap(TreeMap<String, Object> treeMap, String signValue) {
+        return verifySign(getInputStr(treeMap), signValue);
+    }
+
+    private static String getInputStr(TreeMap<String, Object> treeMap) {
+        Iterator<Map.Entry<String, Object>> iterator = treeMap.entrySet().iterator();
         StringBuffer sb = new StringBuffer();
         while (iterator.hasNext()) {
-            Map.Entry<String, String> next = iterator.next();
-            if (!StringUtils.isEmpty(next.getKey()) && !StringUtils.isEmpty(next.getValue())) {
+            Map.Entry<String, Object> next = iterator.next();
+            if (!StringUtils.isEmpty(next.getKey()) && !StringUtils.isEmpty(next.getValue())
+                    && !"signature".equals(next.getKey())) {
                 sb.append(next.getValue()).append("|");
             }
         }
         sb.deleteCharAt(sb.length() - 1);
-        return sign(sb.toString());
+        return sb.toString();
     }
 
     /**
@@ -138,6 +161,7 @@ public class SecurityUtils {
             Signature signature = Signature.getInstance("SHA1withRSA", "BC");
             signature.initVerify(publicKey);
             signature.update(src.getBytes("UTF-8"));
+            System.out.println("-----" + Base64.decode(signValue));
             bool = signature.verify(Base64.decode(signValue));
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,19 +1,21 @@
 package com.zilanghuo.controller;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
 import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
+import com.zilanghuo.third.fuyou.RegisterDTO;
 import com.zilanghuo.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * @author lwf
@@ -29,41 +31,17 @@ public class DepositController {
 
     @RequestMapping(value = "/register")
     public String pay(HttpServletRequest request, ModelMap model) {
-        TreeMap<String, String> treeMap = new TreeMap();
-        treeMap.put("ver", "1.00");
-        treeMap.put("code", "regUserByFive");
-        treeMap.put("mchnt_cd", "0002900F0352200");
-        treeMap.put("mchnt_txn_ssn", "201807240000006");
-        treeMap.put("client_tp", "0");
-        treeMap.put("usr_attr", "1");
-        treeMap.put("page_notify_url", "http://180.169.135.188:2688/deposit/registerPage");
-        treeMap.put("back_notify_url", "http://180.169.135.188:2688/core/registerCallback");
-        treeMap.put("mobile_no", "18525863692");
-        treeMap.put("cust_nm", "小红");
-        treeMap.put("certif_id", "350152199702012586");
-        treeMap.put("email", "lll@qq.com");
-
-        log.info("{}", treeMap);
-
-        model.put("ver", treeMap.get("ver"));
-        model.put("code", treeMap.get("code"));
-        model.put("mchnt_cd", treeMap.get("mchnt_cd"));
-        model.put("mchnt_txn_ssn", treeMap.get("mchnt_txn_ssn"));
-        model.put("client_tp", treeMap.get("client_tp"));
-        model.put("usr_attr", treeMap.get("usr_attr"));
-        model.put("page_notify_url", treeMap.get("page_notify_url"));
-        model.put("back_notify_url", treeMap.get("back_notify_url"));
-        model.put("mobile_no", treeMap.get("mobile_no"));
-        model.put("cust_nm", treeMap.get("cust_nm"));
-        model.put("certif_id", treeMap.get("certif_id"));
-        model.put("email", treeMap.get("email"));
-        model.put("city_id", treeMap.get("city_id"));
-        Map<String, String> sign = sign(treeMap);
-        System.out.println(sign);
-        model.put("signature", sign.get("signature"));
+        RegisterDTO registerDTO = new RegisterDTO();
+        registerDTO.setMchnt_txn_ssn(DateUtil.format(new Date(), DatePattern.PURE_DATETIME_MS_PATTERN));
+        registerDTO.setUsr_attr("1");
+        registerDTO.setMobile_no("18525863602");
+        registerDTO.setCust_nm("秦海贤");
+        registerDTO.setCertif_id("360822198609284091");
+        registerDTO.setEmail("lll@qq.com");
+        registerDTO.setSignature(SecurityUtils.signByBean(registerDTO));
+        getModelMap(registerDTO, model);
         return "/deposit/register";
     }
-
 
     @RequestMapping(value = "registerPage")
     public String registerPage() {
@@ -71,21 +49,20 @@ public class DepositController {
         return "deposit/registerBack";
     }
 
-    public Map<String, String> sign(TreeMap<String, String> treeMap) {
-        Map<String, String> result = new HashMap();
-        Iterator<Map.Entry<String, String>> iterator = treeMap.entrySet().iterator();
-        StringBuffer sb = new StringBuffer();
+    /**
+     * 对象转model
+     *
+     * @param bean
+     * @param modelMap
+     * @return
+     */
+    public ModelMap getModelMap(Object bean, ModelMap modelMap) {
+        Map<String, Object> beanToMap = BeanUtil.beanToMap(bean);
+        Iterator<Map.Entry<String, Object>> iterator = beanToMap.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map.Entry<String, String> next = iterator.next();
-            if (!StringUtils.isEmpty(next.getKey()) && !StringUtils.isEmpty(next.getValue())) {
-                sb.append(next.getValue()).append("|");
-            }
+            Map.Entry<String, Object> next = iterator.next();
+            modelMap.put(next.getKey(), next.getValue());
         }
-        sb.deleteCharAt(sb.length() - 1);
-        result.put("key", sb.toString());
-        String pre = SecurityUtils.sign(sb.toString());
-        result.put("signature", pre);
-        return result;
+        return modelMap;
     }
-
 }
