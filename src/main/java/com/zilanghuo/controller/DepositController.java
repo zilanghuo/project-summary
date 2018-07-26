@@ -3,10 +3,9 @@ package com.zilanghuo.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
-import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
 import com.zilanghuo.third.fuyou.RechargeDTO;
 import com.zilanghuo.third.fuyou.RegisterDTO;
+import com.zilanghuo.third.fuyou.WithdrawDTO;
 import com.zilanghuo.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -28,6 +27,13 @@ import java.util.Map;
 @Slf4j
 public class DepositController {
 
+    @RequestMapping(value = "/")
+    public String home(ModelMap model) {
+
+        return "/deposit/index";
+    }
+
+
     @RequestMapping(value = "/register")
     public String register(ModelMap model) {
         RegisterDTO registerDTO = new RegisterDTO();
@@ -43,13 +49,23 @@ public class DepositController {
     }
 
     @RequestMapping(value = "/recharge")
-    public String recharge(ModelMap model) {
+    public String recharge(HttpServletRequest request, ModelMap model) {
         RechargeDTO rechargeDTO = new RechargeDTO();
         rechargeDTO.setAmt(100);
         rechargeDTO.setLogin_id("18525863602");
         rechargeDTO.setSignature(SecurityUtils.signByBean(rechargeDTO));
         getModelMap(rechargeDTO, model);
         return "/deposit/recharge";
+    }
+
+    @RequestMapping(value = "/withdraw")
+    public String withdraw(HttpServletRequest request, ModelMap model) {
+        WithdrawDTO withdrawDTO = new WithdrawDTO();
+        withdrawDTO.setAmt(100);
+        withdrawDTO.setLogin_id("18525863602");
+        withdrawDTO.setSignature(SecurityUtils.signByBean(withdrawDTO));
+        getModelMap(withdrawDTO, model);
+        return "/deposit/withdraw";
     }
 
     @RequestMapping(value = "registerPage")
