@@ -1,6 +1,7 @@
 package com.zilanghuo.third.fuyou;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author lwf
@@ -8,7 +9,7 @@ import lombok.Data;
  * use: 富友注册
  */
 @Data
-public class RegisterDTO {
+public class RegisterDTO extends BaseDTO {
 
     public RegisterDTO() {
         this.ver = "1.00";
@@ -19,16 +20,6 @@ public class RegisterDTO {
         this.back_notify_url = "http://180.169.135.188:2688/core/registerCallback";
 
     }
-
-    private String ver;
-
-    private String code;
-
-    private String mchnt_cd;
-
-    private String mchnt_txn_ssn;
-
-    private String client_tp;
 
     private String mobile_no;
 

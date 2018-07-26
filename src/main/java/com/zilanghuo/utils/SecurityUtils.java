@@ -161,7 +161,6 @@ public class SecurityUtils {
             Signature signature = Signature.getInstance("SHA1withRSA", "BC");
             signature.initVerify(publicKey);
             signature.update(src.getBytes("UTF-8"));
-            System.out.println("-----" + Base64.decode(signValue));
             bool = signature.verify(Base64.decode(signValue));
         } catch (Exception e) {
             e.printStackTrace();
