@@ -50,9 +50,10 @@ public class DepositController {
 
     @RequestMapping(value = "/recharge")
     public String recharge(HttpServletRequest request, ModelMap model) {
+        log.info("recharge");
         RechargeDTO rechargeDTO = new RechargeDTO();
-        rechargeDTO.setAmt(100);
-        rechargeDTO.setLogin_id("18525863602");
+        rechargeDTO.setAmt(Integer.parseInt(request.getParameter("amt")));
+        rechargeDTO.setLogin_id(request.getParameter("login_id"));
         rechargeDTO.setSignature(SecurityUtils.signByBean(rechargeDTO));
         getModelMap(rechargeDTO, model);
         return "/deposit/recharge";
@@ -60,9 +61,10 @@ public class DepositController {
 
     @RequestMapping(value = "/withdraw")
     public String withdraw(HttpServletRequest request, ModelMap model) {
+        log.info("withdraw");
         WithdrawDTO withdrawDTO = new WithdrawDTO();
-        withdrawDTO.setAmt(100);
-        withdrawDTO.setLogin_id("18525863602");
+        withdrawDTO.setAmt(Integer.parseInt(request.getParameter("amt")));
+        withdrawDTO.setLogin_id(request.getParameter("login_id"));
         withdrawDTO.setSignature(SecurityUtils.signByBean(withdrawDTO));
         getModelMap(withdrawDTO, model);
         return "/deposit/withdraw";

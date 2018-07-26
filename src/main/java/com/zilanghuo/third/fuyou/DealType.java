@@ -13,7 +13,7 @@ import lombok.Getter;
 public enum DealType {
 
     RECHARGE("充值", "2"),
-    WITHDRAW("充值", "3");
+    WITHDRAW("提现", "3");
 
     private String value;
 

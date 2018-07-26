@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>注册界面</title>
@@ -7,15 +7,34 @@
 <script type="text/javascript" src="/static/jquery-3.3.1.js"></script>
 <body>
 
-<form id="hiddenForm" name="hiddenForm" action="http://180.168.100.156:8090/control.action" method="post">
-    姓名：
-    <input type="submit" value="提交">
+<form id="hiddenForm" name="hiddenForm" method="post">
+    姓名：<span th:value="秦海贤"/>秦海贤<br>
+    手机号：<span th:value="秦海贤"/>18525863602<br>
+    金额(分)：<input type="text" value="1000" name="amt"/><br/>
+    <input type="hidden" name="login_id" value="18525863602">
+    <input type="radio" name="type" value="2" checked>充值<br>
+    <input type="radio" name="type" value="3">提现<br>
+    <input type="button" onclick="clickButto()" value="提交">
 </form>
 </body>
 <script type="text/javascript">
+    var basePath;
     $(function () {
-        alert("ooooo");
+        var strFullPath = window.document.location.href;
+        var strPath = window.document.location.pathname;
+        var pos = strFullPath.indexOf(strPath);
+        basePath = strFullPath.substring(0, pos);
     });
+
+    function clickButto() {
+        var type = $("input[type='radio']:checked").val();
+        if (type == '2') {
+            $("#hiddenForm").attr("action", basePath + "/deposit/recharge");
+        } else if (type == '3') {
+            $("#hiddenForm").attr("action", basePath + "/deposit/withdraw");
+        }
+        $("#hiddenForm").submit();
+    }
 
 </script>
 </html>
