@@ -21,6 +21,10 @@ public class RechargeDTO extends BaseDTO {
 
     private Integer amt;
 
+    private String iss_ins_cd;
+
+    private String order_pay_type;
+
     private String page_notify_url;
 
     private String back_notify_url;
