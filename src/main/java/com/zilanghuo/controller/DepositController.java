@@ -27,10 +27,10 @@ import java.util.Map;
 @Slf4j
 public class DepositController {
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/home")
     public String home(ModelMap model) {
-
-        return "/deposit/index";
+        log.info("-----------home");
+        return "/deposit/home";
     }
 
 
