@@ -1,7 +1,6 @@
-package com.zilanghuo.third.fuyou;
+package com.zilanghuo.third.fuyou.dto.req;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author lwf
@@ -9,9 +8,9 @@ import lombok.NoArgsConstructor;
  * use: 富友注册
  */
 @Data
-public class RegisterDTO extends BaseDTO {
+public class RegisterReqDTO extends BaseReqDTO {
 
-    public RegisterDTO() {
+    public RegisterReqDTO() {
         this.ver = "1.00";
         this.code = "regUserByFive";
         this.mchnt_cd = "0002900F0352200";

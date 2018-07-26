@@ -1,4 +1,4 @@
-package com.zilanghuo.third.fuyou;
+package com.zilanghuo.third.fuyou.dto.req;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
@@ -13,9 +13,9 @@ import java.util.Date;
  * use:
  */
 @Data
-public class BaseDTO {
+public class BaseReqDTO {
 
-    public BaseDTO() {
+    public BaseReqDTO() {
         this.ver = "1.00";
         this.mchnt_cd = "0002900F0352200";
         this.mchnt_txn_ssn = DateUtil.format(new Date(), DatePattern.PURE_DATETIME_MS_PATTERN);

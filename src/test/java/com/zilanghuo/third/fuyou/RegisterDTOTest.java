@@ -1,10 +1,9 @@
 package com.zilanghuo.third.fuyou;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.zilanghuo.third.fuyou.dto.req.RegisterReqDTO;
 
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * @author lwf
@@ -15,12 +14,12 @@ public class RegisterDTOTest {
 
     @org.junit.Test
     public void testBean(){
-        RegisterDTO registerDTO = new RegisterDTO();
+        RegisterReqDTO registerDTO = new RegisterReqDTO();
         registerDTO.setBack_notify_url("www.baidu.com");
         registerDTO.setCode("ccccc");
         Map<String, Object> objectMap = BeanUtil.beanToMap(registerDTO);
         System.out.println(objectMap.toString());
-        RegisterDTO mapToBean = BeanUtil.mapToBean(objectMap, RegisterDTO.class, true);
+        RegisterReqDTO mapToBean = BeanUtil.mapToBean(objectMap, RegisterReqDTO.class, true);
         System.out.println(mapToBean.getCode());
 
     }

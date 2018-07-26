@@ -3,9 +3,9 @@ package com.zilanghuo.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
-import com.zilanghuo.third.fuyou.RechargeDTO;
-import com.zilanghuo.third.fuyou.RegisterDTO;
-import com.zilanghuo.third.fuyou.WithdrawDTO;
+import com.zilanghuo.third.fuyou.dto.req.RechargeReqDTO;
+import com.zilanghuo.third.fuyou.dto.req.RegisterReqDTO;
+import com.zilanghuo.third.fuyou.dto.req.WithdrawReqDTO;
 import com.zilanghuo.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -36,7 +36,7 @@ public class DepositController {
 
     @RequestMapping(value = "/register")
     public String register(ModelMap model) {
-        RegisterDTO registerDTO = new RegisterDTO();
+        RegisterReqDTO registerDTO = new RegisterReqDTO();
         registerDTO.setMchnt_txn_ssn(DateUtil.format(new Date(), DatePattern.PURE_DATETIME_MS_PATTERN));
         registerDTO.setUsr_attr("1");
         registerDTO.setMobile_no("18525863602");
@@ -51,7 +51,7 @@ public class DepositController {
     @RequestMapping(value = "/recharge")
     public String recharge(HttpServletRequest request, ModelMap model) {
         log.info("recharge");
-        RechargeDTO rechargeDTO = new RechargeDTO();
+        RechargeReqDTO rechargeDTO = new RechargeReqDTO();
         rechargeDTO.setAmt(Integer.parseInt(request.getParameter("amt")));
         rechargeDTO.setLogin_id(request.getParameter("login_id"));
         rechargeDTO.setSignature(SecurityUtils.signByBean(rechargeDTO));
@@ -62,7 +62,7 @@ public class DepositController {
     @RequestMapping(value = "/rechargeInternet")
     public String rechargeInternet(HttpServletRequest request, ModelMap model) {
         log.info("rechargeInternet");
-        RechargeDTO rechargeDTO = new RechargeDTO();
+        RechargeReqDTO rechargeDTO = new RechargeReqDTO();
         rechargeDTO.setCode(null);
         rechargeDTO.setClient_tp(null);
         rechargeDTO.setVer(null);
@@ -76,7 +76,7 @@ public class DepositController {
     @RequestMapping(value = "/rechargeInternetBank")
     public String rechargeInternetBank(HttpServletRequest request, ModelMap model) {
         log.info("rechargeInternetBank");
-        RechargeDTO rechargeDTO = new RechargeDTO();
+        RechargeReqDTO rechargeDTO = new RechargeReqDTO();
         rechargeDTO.setCode(null);
         rechargeDTO.setClient_tp(null);
         rechargeDTO.setVer(null);
@@ -92,7 +92,7 @@ public class DepositController {
     @RequestMapping(value = "/withdraw")
     public String withdraw(HttpServletRequest request, ModelMap model) {
         log.info("withdraw");
-        WithdrawDTO withdrawDTO = new WithdrawDTO();
+        WithdrawReqDTO withdrawDTO = new WithdrawReqDTO();
         withdrawDTO.setAmt(Integer.parseInt(request.getParameter("amt")));
         withdrawDTO.setLogin_id(request.getParameter("login_id"));
         withdrawDTO.setSignature(SecurityUtils.signByBean(withdrawDTO));

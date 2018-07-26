@@ -1,4 +1,4 @@
-package com.zilanghuo.third.fuyou;
+package com.zilanghuo.third.fuyou.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

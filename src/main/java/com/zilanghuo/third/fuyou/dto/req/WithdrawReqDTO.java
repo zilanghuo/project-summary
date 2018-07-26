@@ -1,4 +1,4 @@
-package com.zilanghuo.third.fuyou;
+package com.zilanghuo.third.fuyou.dto.req;
 
 import lombok.Data;
 
@@ -8,11 +8,11 @@ import lombok.Data;
  * use:
  */
 @Data
-public class RechargeDTO extends BaseDTO {
+public class WithdrawReqDTO extends BaseReqDTO {
 
-    public RechargeDTO(){
+    public WithdrawReqDTO(){
         super();
-        this.code = "quickRecharge";
+        this.code = "withdraw";
         this.page_notify_url = "http://180.169.135.188:2688/deposit/registerPage";
         this.back_notify_url = "http://180.169.135.188:2688/core/registerCallback";
     }
@@ -20,10 +20,6 @@ public class RechargeDTO extends BaseDTO {
     private String login_id;
 
     private Integer amt;
-
-    private String iss_ins_cd;
-
-    private String order_pay_type;
 
     private String page_notify_url;
 
