@@ -59,6 +59,20 @@ public class DepositController {
         return "/deposit/recharge";
     }
 
+    @RequestMapping(value = "/rechargeInternet")
+    public String rechargeInternet(HttpServletRequest request, ModelMap model) {
+        log.info("rechargeInternet");
+        RechargeDTO rechargeDTO = new RechargeDTO();
+        rechargeDTO.setCode(null);
+        rechargeDTO.setClient_tp(null);
+        rechargeDTO.setVer(null);
+        rechargeDTO.setAmt(Integer.parseInt(request.getParameter("amt")));
+        rechargeDTO.setLogin_id(request.getParameter("login_id"));
+        rechargeDTO.setSignature(SecurityUtils.signByBean(rechargeDTO));
+        getModelMap(rechargeDTO, model);
+        return "/deposit/rechargeInternet";
+    }
+
     @RequestMapping(value = "/withdraw")
     public String withdraw(HttpServletRequest request, ModelMap model) {
         log.info("withdraw");

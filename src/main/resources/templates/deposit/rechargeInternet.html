@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>充值</title>
+</head>
+<script type="text/javascript" src="/static/jquery-3.3.1.js"></script>
+<body>
+
+<form id="hiddenForm" name="hiddenForm" action="http://180.168.100.156:8090/500002.action" method="post">
+    <input type="text" name="mchnt_cd" th:value="${mchnt_cd}"/><br/>
+    <input type="text" name="mchnt_txn_ssn" th:value="${mchnt_txn_ssn}"/><br/>
+    <input type="text" name="page_notify_url" th:value="${page_notify_url}"/><br/>
+    <input type="text" name="back_notify_url" th:value="${back_notify_url}"/><br/>
+    <input type="text" name="signature" th:value="${signature}"/><br/>
+    <input type="text" name="login_id" th:value="${login_id}"/><br/>
+    <input type="text" name="amt" th:value="${amt}"/><br/>
+    <input type="submit" value="提交">
+</form>
+</body>
+<script type="text/javascript">
+    $(function () {
+        $("#hiddenForm").submit();
+    });
+</script>
+
+</html>

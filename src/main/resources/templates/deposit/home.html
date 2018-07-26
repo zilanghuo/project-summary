@@ -12,7 +12,8 @@
     手机号：<span th:value="秦海贤"/>18525863602<br>
     金额(分)：<input type="text" value="1000" name="amt"/><br/>
     <input type="hidden" name="login_id" value="18525863602">
-    <input type="radio" name="type" value="2" checked>充值<br>
+    <input type="radio" name="type" value="2" checked>快捷充值<br>
+    <input type="radio" name="type" value="4">网银充值<br>
     <input type="radio" name="type" value="3">提现<br>
     <input type="button" onclick="clickButto()" value="提交">
 </form>
@@ -32,6 +33,8 @@
             $("#hiddenForm").attr("action", basePath + "/deposit/recharge");
         } else if (type == '3') {
             $("#hiddenForm").attr("action", basePath + "/deposit/withdraw");
+        } else if (type == '4') {
+            $("#hiddenForm").attr("action", basePath + "/deposit/rechargeInternet");
         }
         $("#hiddenForm").submit();
     }
