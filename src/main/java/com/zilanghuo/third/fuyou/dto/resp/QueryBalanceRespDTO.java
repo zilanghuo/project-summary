@@ -1,13 +1,29 @@
 package com.zilanghuo.third.fuyou.dto.resp;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
  * @author lwf
  * @date 2018/7/26
  * use:
+ * <ap>
+ *  <plain>
+ *  <resp_code>返回码</resp_code>
+ *  <mchnt_cd>商户代码</mchnt_cd>
+ *  <mchnt_txn_ssn>商户流水号</mchnt_txn_ssn>
+ *  <results>
+ *      <result>
+ *          <user_id>用户名</user_id>
+ *          <ct_balance>账面总余额</ct_balance>
+ *          <ca_balance>可用余额</ca_balance>
+ *          <cf_balance>冻结余额</cf_balance>
+ *          <cu_balance>未转结余额</cu_balance>
+ *      </result>
+ *  </results>
+ *  </plain>
+ *  <signature>签名数据</signature>
+ * </ap>
  */
 
 @lombok.Setter
@@ -19,7 +35,7 @@ public class QueryBalanceRespDTO {
 
     private String mchnt_txn_ssn;
 
-    private List<Result> resultList;
+    private ResultDto resultDto;
 
     @XmlElement(name = "resp_code")
     public String getResp_code() {
@@ -37,14 +53,26 @@ public class QueryBalanceRespDTO {
     }
 
     @XmlElement(name = "results")
+    public ResultDto getResultDto() {
+        return resultDto;
+    }
+
+
+}
+
+@lombok.Setter
+class ResultDto {
+
+    private List<Result> resultList;
+
+    @XmlElement(name = "result")
     public List<Result> getResultList() {
         return resultList;
     }
 }
 
 @lombok.Setter
-@XmlRootElement(name = "result")
-class Result{
+class Result {
 
     private String user_id;
 

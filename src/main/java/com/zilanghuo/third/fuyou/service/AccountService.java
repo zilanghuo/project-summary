@@ -25,8 +25,6 @@ public class AccountService {
         log.info("response:"+response);
         CommomResp respData= XmlBeanUtils.convertXml2Bean(response, CommomResp.class);
         log.info("result:{}", JSONUtil.toJsonStr(respData));
-
-
     }
 
 }
