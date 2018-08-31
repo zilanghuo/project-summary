@@ -1,18 +1,18 @@
 package com.zilanghuo.utils;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.codec.Base64;
-import org.springframework.util.StringUtils;
+        import cn.hutool.core.bean.BeanUtil;
+        import cn.hutool.core.codec.Base64;
+        import org.springframework.util.StringUtils;
 
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Signature;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
+        import java.security.KeyFactory;
+        import java.security.PrivateKey;
+        import java.security.PublicKey;
+        import java.security.Signature;
+        import java.security.spec.PKCS8EncodedKeySpec;
+        import java.security.spec.X509EncodedKeySpec;
+        import java.util.Iterator;
+        import java.util.Map;
+        import java.util.TreeMap;
 
 /**
  * 1.商户的私钥初始化
@@ -33,9 +33,9 @@ public class SecurityUtils {
      */
     public static PublicKey publicKey;
 
-    private static String base64PublicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDcp9NU29EfqPReJLGBS0WZwCKxORrc4IQpKbup1cF4KzQnpMCwcJXF9KW1vJ/ZzOMwAlGfhq2V96MGPOO6T/Zkesasjdmy19wnOdzDxGXu2pEMbFMDOonYxf1m5/VNs2+TZ18eyW585XefXoNlYCzg6RJmXK0fZ1UPAU9ZxgocEQIDAQAB";
+    private static String base64PublicKeyValue = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDcp9NU29EfqPReJLGBS0WZwCKxORrc4IQpKbup1cF4KzQnpMCwcJXF9KW1vJ/ZzOMwAlGfhq2V96MGPOO6T/Zkesasjdmy19wnOdzDxGXu2pEMbFMDOonYxf1m5/VNs2+TZ18eyW585XefXoNlYCzg6RJmXK0fZ1UPAU9ZxgocEQIDAQAB";
 
-    private static String base64PrivateKey = "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAO2u+9vkuQGYwe2Yw0XFXRdhCkvwY4328H2STJjeW2LGDJqYYQVbpw1CNwJ0hKKcpk1/APENbdv84RP7x3YEkQVNoB0uSj8qnpUsnuyBdxLdToohikvOrNRWgQx/ZvgFE+rWjka9wVaKqLUbUWxpq9GiUAPFa78kYOABD8dIMtg9AgMBAAECgYEAgpNzQiaxjLMDNyiJfrcioUlqgrWZu9BB5nqNIh5mTilHm1bDVlI3wAz0c6DXjQ5KPqDbP5KFHCoc7QGRXsC7egNBX9kNtL7ZCuYw78pE5sNM4+885fgoqaBCbnc+PxgyAqQ+ZIO5u6QKXQpEoe7PpvxCVBAGyn/1klaQVidUivECQQD87PnV05v8ibOv0N6cSpEZ8s/mdFVDSw0sFBdxMseFGY/WjDl1g9ZQCuwjrcT5S/mnYgb6MzRJn+s0rfCFlImLAkEA8JKURMVg6GqIleQq4e03uqEZ6AgErBlh2e+1/T9vgij6n/ueZysamHydZAupk3Wsfn1bkmdA4zqOCf7UZueOVwJAHDwIF8qrmyF0IahbcW8Ri6gDdWJ/MifqrIUBqO1WQJF98SFuOKQjBIRzn/gCCSJmGD1lMgENUTq88wCH3SGbyQJBAJzEuDAUe3EZM0aSOEufvQg2QV6OExVfOP+/ENYmB3FHaQLmAjRyx1MFKb9vRiMctLp80DaYaJVqq/Lhh+JDFOMCQQCXrBhjTx4KfLzfUhOVzm5D8w5sAn9Sg1jDeMwe8tyiyUBbbkw+k9qK0YLOfnwKuC3MNI5URjaKyLzilPDZZkrs";
+    private static String base64PrivateKeyValue = "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAO2u+9vkuQGYwe2Yw0XFXRdhCkvwY4328H2STJjeW2LGDJqYYQVbpw1CNwJ0hKKcpk1/APENbdv84RP7x3YEkQVNoB0uSj8qnpUsnuyBdxLdToohikvOrNRWgQx/ZvgFE+rWjka9wVaKqLUbUWxpq9GiUAPFa78kYOABD8dIMtg9AgMBAAECgYEAgpNzQiaxjLMDNyiJfrcioUlqgrWZu9BB5nqNIh5mTilHm1bDVlI3wAz0c6DXjQ5KPqDbP5KFHCoc7QGRXsC7egNBX9kNtL7ZCuYw78pE5sNM4+885fgoqaBCbnc+PxgyAqQ+ZIO5u6QKXQpEoe7PpvxCVBAGyn/1klaQVidUivECQQD87PnV05v8ibOv0N6cSpEZ8s/mdFVDSw0sFBdxMseFGY/WjDl1g9ZQCuwjrcT5S/mnYgb6MzRJn+s0rfCFlImLAkEA8JKURMVg6GqIleQq4e03uqEZ6AgErBlh2e+1/T9vgij6n/ueZysamHydZAupk3Wsfn1bkmdA4zqOCf7UZueOVwJAHDwIF8qrmyF0IahbcW8Ri6gDdWJ/MifqrIUBqO1WQJF98SFuOKQjBIRzn/gCCSJmGD1lMgENUTq88wCH3SGbyQJBAJzEuDAUe3EZM0aSOEufvQg2QV6OExVfOP+/ENYmB3FHaQLmAjRyx1MFKb9vRiMctLp80DaYaJVqq/Lhh+JDFOMCQQCXrBhjTx4KfLzfUhOVzm5D8w5sAn9Sg1jDeMwe8tyiyUBbbkw+k9qK0YLOfnwKuC3MNI5URjaKyLzilPDZZkrs";
 
 
     static {
@@ -50,7 +50,7 @@ public class SecurityUtils {
     /**
      * init:初始化私钥
      */
-    public static void initPrivateKey() {
+    public static void initPrivateKey(String base64PrivateKey) {
         try {
             if (privateKey == null) {
                 privateKey = getPrivateKey(base64PrivateKey);
@@ -65,7 +65,7 @@ public class SecurityUtils {
     /**
      * 初始化公钥
      */
-    public static void initPublicKey() {
+    public static void initPublicKey(String base64PublicKey) {
         try {
             if (publicKey == null) {
                 publicKey = getPublicKey(base64PublicKey);
@@ -80,18 +80,18 @@ public class SecurityUtils {
     /**
      * map 排序加密
      *
-     * @param map
+     * @param bean
      * @return
      */
     public static String signByBean(Object bean) {
         Map<String, Object> map = BeanUtil.beanToMap(bean);
-        TreeMap<String,Object> treeMap = new TreeMap();
+        TreeMap<String, Object> treeMap = new TreeMap();
         Iterator<Map.Entry<String, Object>> iteratorMap = map.entrySet().iterator();
-        while (iteratorMap.hasNext()){
+        while (iteratorMap.hasNext()) {
             Map.Entry<String, Object> next = iteratorMap.next();
-            treeMap.put(next.getKey(),next.getValue());
+            treeMap.put(next.getKey(), next.getValue());
         }
-        return sign(getInputStr(treeMap));
+        return sign(getInputStr(treeMap), base64PrivateKeyValue);
     }
 
     /**
@@ -101,7 +101,7 @@ public class SecurityUtils {
      * @return
      */
     public static Boolean verifyByTreeMap(TreeMap<String, Object> treeMap, String signValue) {
-        return verifySign(getInputStr(treeMap), signValue);
+        return verifySign(getInputStr(treeMap), signValue, base64PublicKeyValue);
     }
 
     private static String getInputStr(TreeMap<String, Object> treeMap) {
@@ -125,12 +125,12 @@ public class SecurityUtils {
      * @return
      * @
      */
-    public static String sign(String inputStr) {
+    public static String sign(String inputStr, String base64PrivateKey) {
         String result = null;
         try {
             if (privateKey == null) {
                 //初始化
-                initPrivateKey();
+                initPrivateKey(base64PrivateKey);
             }
             byte[] tByte;
             Signature signature = Signature.getInstance("SHA1withRSA", "BC");
@@ -152,16 +152,18 @@ public class SecurityUtils {
      * @param signValue 返回数据签名
      * @return
      */
-    public static boolean verifySign(String src, String signValue) {
+    public static boolean verifySign(String src, String signValue, String base64PublicKey) {
         boolean bool = false;
         try {
             if (publicKey == null) {
-                initPublicKey();
+                initPublicKey(base64PublicKey);
             }
             Signature signature = Signature.getInstance("SHA1withRSA", "BC");
             signature.initVerify(publicKey);
             signature.update(src.getBytes("UTF-8"));
-            bool = signature.verify(Base64.decode(signValue));
+            byte[] decode = Base64.decode(signValue);
+            System.out.println(new String(decode));
+            bool = signature.verify(decode);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("密钥初始化失败");
@@ -199,8 +201,12 @@ public class SecurityUtils {
 
 
     public static void main(String[] args) {
-        String str = "https://www.baidu.com|0|regUserByFive|0002900F0352200|201807240000002|https://www.baidu.com|1|1.00";
-        String sign = sign(str);
+        String preSign = "Z+sKSMg0Dn93Lw9obEuLtDsiHh35RBwFpq4tVIswDTOvEKE85HkA7ViBmTPYNwDeXDFoUjOiUkp35wL/BdBFr/0eeWNULonJ8JMlibBrTjzPL41LjwyxhQPr/h1rFcM+Kx/vvQj/eSsFhFLv5FCxcNkc5hprNkkQIxThoUYeu7o=";
+        String str = "1000|0002900F0352200|20180816|20180816115501000073147|18525863602|";
+        String sign = sign(str, base64PrivateKeyValue);
+        System.out.println(verifySign("0002900F0352200|20180816134504900073148|0000|成功", "oWqBaDw/5044t88pAjAlKhjXglRM67OTXGSOuwzfQPlKrtXHg85ZtswITYYeAA+O6lzsUGp4ZA9JYnCn0w1XdaumlNqRxC5l5yS5U/kHrxaKFC625VX6ZnogPOBgyUq6pG28BwcY5KaMm/lSS0L7AIuDy95cyhyL5+xhK5f0OJI=", base64PublicKeyValue));
+        System.out.println(verifySign("1000|0002900F0352200|20180816|20180816134504900073148|18525863602|", "IJvh8ToqonKZ6tC4sd4NnusT9aIk2nW723WwQWExIN3UE+hnY7hNHoRU6Kqm51Mvl+fz6RpMORZu1v6saPTB0nS47gZnXzsIGxeVhDWu4uKQIeoQXSVc/8zFfz+llzUNkZzwKyPT7cUX0MlbUiNKkmQAnuXleJQBPnGiG8DZbB0=", base64PublicKeyValue));
+        System.out.println(verifySign("1000|0002900F0352200|20180816|20180816134504900073148|18525863602|", "IJvh8ToqonKZ6tC4sd4NnusT9aIk2nW723WwQWExIN3UE+hnY7hNHoRU6Kqm51Mvl+fz6RpMORZu1v6saPTB0nS47gZnXzsIGxeVhDWu4uKQIeoQXSVc/8zFfz+llzUNkZzwKyPT7cUX0MlbUiNKkmQAnuXleJQBPnGiG8DZbB0=", base64PublicKeyValue));
         System.out.println(sign);
     }
 

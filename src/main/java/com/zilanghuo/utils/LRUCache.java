@@ -12,52 +12,73 @@ import java.util.Map;
  * use：去掉最少使用的策略
  */
 @Data
-public class LRUCache<K,V> {
+public class LRUCache<K, V> {
 
     public static void main(String[] args) {
         LRUCache lruCache = new LRUCache(2);
-        lruCache.put("1","1");
-        lruCache.put("2","2");
-        lruCache.put("3","3");
+        lruCache.put("1", "1");
+        lruCache.put("2", "2");
+        lruCache.put("3", "3");
         System.out.println(lruCache.toString());
     }
 
     private Integer maxSize;
 
-    private Entry<K,V> first;
+    private Entry<K, V> first;
 
-    private Entry<K,V> last;
+    private Entry<K, V> last;
 
-    private Map<K,Entry<K,V>> cacheMap;
+    private Map<K, Entry<K, V>> cacheMap;
 
-    public LRUCache(int size){
+    public LRUCache(int size) {
         this.maxSize = size;
         cacheMap = new HashMap(size);
     }
 
-    public void put(K key,V value){
+    /**
+     * 添加顺序
+     *
+     * @param key
+     * @param value
+     */
+    public void put(K key, V value) {
         Entry<K, V> entry = cacheMap.get(key);
-        if (null == entry){
-            entry = new Entry(key,value);
+        if (null == entry) {
+            entry = new Entry(key, value);
             entry.key = key;
         }
         entry.value = value;
         //超过大小
-        if (cacheMap.size() >= maxSize){
+        if (cacheMap.size() >= maxSize) {
             //删除一个数据
             removeLast();
         }
         moveFirst(entry);
-        cacheMap.put(key,entry);
+        cacheMap.put(key, entry);
+    }
+
+    /**
+     * 访问的时候，变更顺序
+     *
+     * @param key
+     * @return
+     */
+    public V get(K key) {
+        Entry<K, V> entry = getEntry(key);
+        if (null == entry) {
+            return null;
+        }
+        moveFirst(entry);
+        return entry.value;
     }
 
     private Entry<K, V> getEntry(K key) {
         return cacheMap.get(key);
     }
 
-    private void removeLast(){
+    private void removeLast() {
         cacheMap.remove(last.key);
-        if (null == last){
+        if (null == last) {
             return;
         }
         last = last.pre;
@@ -68,17 +89,17 @@ public class LRUCache<K,V> {
         }
     }
 
-    private void moveFirst(Entry<K,V> entry){
+    private void moveFirst(Entry<K, V> entry) {
 
-        if (entry == first){
+        if (entry == first) {
             return;
         }
 
-        if (null != entry.pre){
+        if (null != entry.pre) {
             entry.pre.next = entry.next;
         }
 
-        if (null != entry.next){
+        if (null != entry.next) {
             entry.next.pre = entry.pre;
         }
 
@@ -87,7 +108,7 @@ public class LRUCache<K,V> {
         }
 
         // 第一个元素
-        if (null == first || null == last){
+        if (null == first || null == last) {
             first = last = entry;
             return;
         }
@@ -97,32 +118,32 @@ public class LRUCache<K,V> {
         first.pre = entry;
         first = entry;
         entry.pre = null;
-        System.out.println("last:"+last.key);
+        System.out.println("last:" + last.key);
     }
 
-    class Entry<K,V>{
+    class Entry<K, V> {
 
-        public Entry<K,V> pre;
+        public Entry<K, V> pre;
 
-        public Entry<K,V> next;
+        public Entry<K, V> next;
 
         public K key;
 
         public V value;
 
-        public Entry(K key,V value){
+        public Entry(K key, V value) {
             this.key = key;
             this.value = value;
         }
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         Iterator<Map.Entry<K, Entry<K, V>>> iterator = cacheMap.entrySet().iterator();
         StringBuffer buffer = new StringBuffer("");
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Map.Entry<K, Entry<K, V>> next = iterator.next();
-            buffer.append("key:"+next.getKey()+",value:"+next.getValue().value).append("|");
+            buffer.append("key:" + next.getKey() + ",value:" + next.getValue().value).append("|");
         }
         return buffer.toString();
     }
